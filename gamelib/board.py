@@ -9,15 +9,6 @@ class Board:
     def checkopened(self, index):
         return index in self.opened
     
-    def openOne(self, index):
-        self.opened.append(index)
-
-    def open(self, index):
-        pass
-    
-    def flag(self, index):
-        self.flagged.append(index)
-    
     def checkflagged(self, index):
         return index in self.flagged
     

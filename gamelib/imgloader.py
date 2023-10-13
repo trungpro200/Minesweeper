@@ -7,6 +7,6 @@ MINE = tile('Mine')
 EXPLODED = tile('Exploded')
 FLAG = tile('Flag')
 NUMTILES = {}
-
-for i in range(1,9): 
+RESTART = pygame.image.load('./gamelib/assets/Restart.png')
+for i in range(1,9):
     NUMTILES[i]=tile(i)
