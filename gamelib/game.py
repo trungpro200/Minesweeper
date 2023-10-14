@@ -74,12 +74,15 @@ class gameRenderer(Bomb, Board, pygame.Surface):
     def adjOpened(self, index):
         return len([x for x in self.getSuroundIndex(index) if x in self.opened])
     
+    def adjUnknown(self, index):
+        return len([x for x in self.getSuroundIndex(index) if x not in self.opened])
+    
     def openAuto(self, index):
         if self.adjFlag(index)==self.bombGradients[index]:
             [self.open(x, auto=True) for x in self.getSuroundIndex(index) if x not in self.flagged]
     
     def flagAuto(self, index):
-        if 8-self.adjOpened(index)==self.bombGradients[index]:
+        if self.adjUnknown(index)==self.bombGradients[index]:
             [self.toggle_flag(x) for x in self.getSuroundIndex(index) if x not in self.flagged and x not in self.opened]
         
     def open(self, index, auto=False):
@@ -90,6 +93,7 @@ class gameRenderer(Bomb, Board, pygame.Surface):
         if self.checkopened(index) and not auto:
             self.openAuto(index)
             self.flagAuto(index)
+            return
         
         if self.bombGradients[index]!=0:
             self.openOne(index)
@@ -113,6 +117,7 @@ class gameRenderer(Bomb, Board, pygame.Surface):
                 continue
             
             self.blit(UNKNOWN, self.itopos(i, True))
+
     def drawbutton(self):
         self.blit(RESTART, ((self.x-2)*8+5, 10))
         

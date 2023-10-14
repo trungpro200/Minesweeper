@@ -15,7 +15,8 @@ class Bomb:
         return self.lenght
     
     def generateBombs(self, index):
-        area = [x for x in range(self.lenght) if x not in self.getSuroundIndex(index)]
+        area = [x for x in range(self.lenght) if x not in self.getSuroundIndex(index) and x!=index]
+        print(area)
         self.bombs=random.sample(area, self.counts)
         
     def itopos(self, index, torender=False):

@@ -8,12 +8,13 @@ def start():
     game = gamelib.gameRenderer((SIZE_X, SIZE_Y), BOMB_COUNT)
     win = pygame.display.set_mode((SIZE_X*16+10, SIZE_Y*16+60))
 
+clock = pygame.time.Clock()
 game = gamelib.gameRenderer((SIZE_X, SIZE_Y), BOMB_COUNT)
 win = pygame.display.set_mode((SIZE_X*16+10, SIZE_Y*16+60))
 running = True
 
 while running:
-    
+    clock.tick(60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -34,7 +35,7 @@ while running:
             
             if event.button == pygame.BUTTON_LEFT:
                 if not game.init_index:
-                    game.init_index=index
+                    game.init_index=True
                     game.generateBombs(index)
                     game.createGradients()
                 if game.checkflagged(index):
