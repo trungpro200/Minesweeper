@@ -1,9 +1,11 @@
 
 class Board:
-    def __init__(self, size: int) -> None:
+    def __init__(self, size: tuple[int, int]) -> None:
         self.size = size
+        self.x, self.y = size
         self.opened = []
         self.flagged = []
+        self.sellected = []
         self.boardRCNpos = (5,50) #Right Corner pos of the board area
     
     def checkopened(self, index):

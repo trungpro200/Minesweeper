@@ -17,6 +17,12 @@ class gameRenderer(Bomb, Board, pygame.Surface):
     def background(self):
         self.fill((128, 128, 128))
     
+    def select(self, index):
+        self.sellected+=self.adjUnknown(index, False)
+    
+    def deselect(self):
+        self.sellected.clear()
+    
     # i = index, pos = position
     def itopos(self, index, torender=False):
         x = index%self.x
@@ -35,7 +41,14 @@ class gameRenderer(Bomb, Board, pygame.Surface):
             b=b//16
         
         return a + b*self.x
-            
+    
+    def drawSelected(self):
+        if not self.sellected:
+            return
+        
+        for sel in self.sellected:
+            self.blit(EMPTY, self.itopos(sel, True))
+           
     def drawGround(self):
         if not self.init_index:
             return
@@ -74,8 +87,13 @@ class gameRenderer(Bomb, Board, pygame.Surface):
     def adjOpened(self, index):
         return len([x for x in self.getSuroundIndex(index) if x in self.opened])
     
-    def adjUnknown(self, index):
-        return len([x for x in self.getSuroundIndex(index) if x not in self.opened])
+    def adjUnknown(self, index, getNum=True) ->list:
+        t = [x for x in self.getSuroundIndex(index) if x not in self.opened]
+        if getNum:
+            return len(t) # type: ignore
+        
+        return [x for x in t if x not in self.flagged]
+        
     
     def openAuto(self, index):
         if self.adjFlag(index)==self.bombGradients[index]:
@@ -127,4 +145,5 @@ class gameRenderer(Bomb, Board, pygame.Surface):
         if not self.failed:
             self.drawboard()
         self.drawbutton()
+        self.drawSelected()
         self.convert_alpha()

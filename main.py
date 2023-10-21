@@ -21,7 +21,7 @@ while running:
             running = False
         
         
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONUP:
             x, y = event.pos
             if game._resetbutton.collidepoint(x,y):
                     start()
@@ -32,19 +32,40 @@ while running:
                 break
             
             index = game.postoi((x,y), raw=True)
+            game.deselect()
             
             if event.button == pygame.BUTTON_LEFT:
                 if not game.init_index:
-                    game.init_index=True
+                    game.init_index=True # type: ignore
                     game.generateBombs(index)
                     game.createGradients()
                 if game.checkflagged(index):
                     break
                 game.open(index)
                 
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            
+            
+            if not game.init_index:
+                break
+            
+            x,y = event.pos
+            if not game.checkmouse((x,y)):
+                break
+            
+            index = game.postoi((x,y), raw=True)
+            
             if event.button == pygame.BUTTON_RIGHT:
                 game.toggle_flag(index)
-        
+                break
+            
+            if game.bombGradients[index]==0:
+                break
+            
+            if game.checkopened(index):
+                game.select(index)
+            
             
     game.draw()
     win.blit(game, (0,0))
